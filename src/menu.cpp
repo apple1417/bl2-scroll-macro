@@ -62,7 +62,7 @@ bool post_populate_keys(HookDetails& hook) {
 
         auto bind = keybind_list.get_at<UStructProperty>(idx);
         // Set our modded binds to a dummy value to make sure they'll never get swapped
-        // We track display name seperately
+        // We track display name separately
         bind.set<UNameProperty>(L"CurrentKey"_fn, L"DUMMY KEY"_fn);
         bind.set<UObjectProperty>(L"Object"_fn, obj);
     };

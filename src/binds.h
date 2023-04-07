@@ -15,7 +15,7 @@ namespace scroll::binds {
 enum class ScrollType { UP, DOWN };
 
 /**
- * @brief Initalizes the binds module, loading defaults from the config file.
+ * @brief Initializes the binds module, loading defaults from the config file.
  */
 void init(void);
 

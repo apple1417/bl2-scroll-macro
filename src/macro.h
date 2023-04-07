@@ -4,7 +4,7 @@
 namespace scroll::macro {
 
 /**
- * @brief Initalizes and runs the macro.
+ * @brief Initializes and runs the macro.
  */
 void run(void);
 

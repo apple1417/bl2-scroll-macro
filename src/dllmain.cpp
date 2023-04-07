@@ -30,7 +30,7 @@ DWORD WINAPI startup_thread(LPVOID /*unused*/) {
         scroll::binds::init();
         scroll::menu::init();
     } catch (std::exception& ex) {
-        LOG(ERROR, "Exception occurred while initializing the maco: {}", ex.what());
+        LOG(ERROR, "Exception occurred while initializing the macro: {}", ex.what());
     }
 
     try {

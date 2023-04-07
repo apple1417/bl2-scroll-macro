@@ -4,7 +4,7 @@
 namespace scroll::menu {
 
 /**
- * @brief Initalizes the hooks needed to add the macro keybinds.
+ * @brief Initializes the hooks needed to add the macro keybinds.
  */
 void init(void);
 
