@@ -16,6 +16,7 @@
 #include <unrealsdk/unrealsdk.h>
 
 #include "binds.h"
+#include "config.h"
 
 using namespace unrealsdk::unreal;
 using namespace unrealsdk::hook_manager;
@@ -24,7 +25,6 @@ namespace scroll::menu {
 
 namespace {
 
-const constexpr auto TOOLTIP = L"Scroll Macro v1.0";
 const constexpr auto TOOLTIP_PATH = L"menu.inner.tooltips.htmlText";
 
 const constexpr auto HOOK_KEY = L"ScrollMacro";
@@ -122,7 +122,7 @@ bool on_bind_key(HookDetails& hook) {
  */
 bool on_update_tooltips(HookDetails& hook) {
     hook.obj->get<UFunction, BoundFunction>(L"SetVariableString"_fn)
-        .call<void, UStrProperty, UStrProperty>(TOOLTIP_PATH, TOOLTIP);
+        .call<void, UStrProperty, UStrProperty>(TOOLTIP_PATH, USING_MACRO_TOOLTIP);
 
     return true;
 }

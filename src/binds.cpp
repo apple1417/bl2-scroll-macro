@@ -5,9 +5,9 @@
 #include <unrealsdk/unreal/classes/properties/ustrproperty.h>
 #include <unrealsdk/unreal/structs/fname.h>
 #include <unrealsdk/unreal/wrappers/bound_function.h>
-#include <fstream>
 
 #include "binds.h"
+#include "config.h"
 
 using namespace unrealsdk::unreal;
 
@@ -318,7 +318,7 @@ DWORD down_keycode = 0;
  */
 void load_config(void) {
     // Don't need anything special, it's just two ints
-    std::ifstream stream("scroll-macro.cfg");
+    std::ifstream stream(CONFIG_FILE);
     stream >> up_keycode;
     stream >> down_keycode;
 }
@@ -327,7 +327,7 @@ void load_config(void) {
  * @brief Writes the configured keys to the config file.
  */
 void save_config(void) {
-    std::ofstream stream("scroll-macro.cfg");
+    std::ofstream stream(CONFIG_FILE);
     stream << up_keycode << " " << down_keycode;
 }
 

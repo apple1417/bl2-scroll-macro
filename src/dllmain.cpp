@@ -5,6 +5,7 @@
 #include <unrealsdk/unrealsdk.h>
 
 #include "binds.h"
+#include "config.h"
 #include "menu.h"
 
 namespace {
@@ -16,7 +17,7 @@ namespace {
  * @return unused.
  */
 DWORD WINAPI startup_thread(LPVOID /*unused*/) {
-    unrealsdk::logging::init("scroll-macro.log");
+    unrealsdk::logging::init(LOG_FILE);
 
     try {
         unrealsdk::init(unrealsdk::game::select_based_on_executable());

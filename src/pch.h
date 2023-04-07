@@ -3,4 +3,10 @@
 
 #include <unrealsdk/pch.h>
 
+#ifdef __cplusplus
+
+#include <fstream>
+
+#endif
+
 #endif /* PCH_H */
