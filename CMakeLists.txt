@@ -1,6 +1,6 @@
 ﻿cmake_minimum_required(VERSION 3.24)
 
-project(bl2-scroll-macro)
+project(bl2-scroll-macro VERSION 1.0)
 add_library(bl2-scroll-macro SHARED)
 
 target_compile_features(bl2-scroll-macro PUBLIC cxx_std_20)
@@ -21,12 +21,13 @@ set(UNREALSDK_ARCH x86)
 set(UNREALSDK_UE_VERSION UE3)
 add_subdirectory(libs/unrealsdk)
 
+configure_file(versioninfo.rc.in versioninfo.rc)
+configure_file(src/config.h.in build_overrides/config.h)
 
 file(GLOB_RECURSE sources CONFIGURE_DEPENDS "src/*.cpp" "src/*.h")
+target_sources(bl2-scroll-macro PRIVATE ${sources} "${PROJECT_BINARY_DIR}/versioninfo.rc")
 
-target_sources(bl2-scroll-macro PRIVATE ${sources})
-
-target_include_directories(bl2-scroll-macro PUBLIC "src")
+target_include_directories(bl2-scroll-macro PUBLIC "${PROJECT_BINARY_DIR}/build_overrides" "src")
 target_link_libraries(bl2-scroll-macro PUBLIC unrealsdk winmm.lib)
 
 target_precompile_headers(bl2-scroll-macro PUBLIC "src/pch.h")

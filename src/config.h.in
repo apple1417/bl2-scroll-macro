@@ -1,0 +1,19 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+// NOLINTBEGIN(cppcoreguidelines-macro-usage)
+
+// This header is modified by cmake to insert the relevant strings
+#define VERSION_MAJOR "@PROJECT_VERSION_MAJOR@"
+#define VERSION_MINOR "@PROJECT_VERSION_MINOR@"
+
+// NOLINTEND(cppcoreguidelines-macro-usage)
+
+inline const constexpr auto USING_MACRO_TOOLTIP = L"Scroll Macro v" VERSION_MAJOR "." VERSION_MINOR;
+
+inline const constexpr auto LOG_FILE = "scroll-macro.log";
+inline const constexpr auto CONFIG_FILE = "scroll-macro.cfg";
+
+inline const constexpr auto SPAM_TIMER_MS = 3;
+
+#endif /* CONFIG_H */
