@@ -1,7 +1,10 @@
 #include "pch.h"
 
 #include <unrealsdk/game/selector.h>
+#include <unrealsdk/logging.h>
 #include <unrealsdk/unrealsdk.h>
+
+#include "menu.h"
 
 namespace {
 
@@ -12,11 +15,15 @@ namespace {
  * @return unused.
  */
 DWORD WINAPI startup_thread(LPVOID /*unused*/) {
+    unrealsdk::logging::init("scroll-macro.log");
+
     try {
         unrealsdk::init(unrealsdk::game::select_based_on_executable());
     } catch (std::exception& ex) {
         LOG(ERROR, "Exception occurred while initializing the sdk: {}", ex.what());
     }
+
+    scroll::menu::init();
 
     return 1;
 }
