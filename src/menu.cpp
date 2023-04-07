@@ -96,22 +96,15 @@ bool on_bind_key(HookDetails& hook) {
 
     // If this is a modded bind, Set it to whatever requested, without checking for conflicts.
 
-    auto selected_bind = keybinds.get_at<UStructProperty>(selected_idx);
-    const auto current_key = selected_bind.get<UNameProperty>(L"CurrentKey"_fn);
-
-    // Allow unbinding
-    if (new_key == current_key) {
-        new_key = L"None"_fn;
-    }
-
     auto type = selected_idx == scroll_up_idx ? binds::ScrollType::UP : binds::ScrollType::DOWN;
-    binds::change_bind(type, new_key);
+    binds::rebind(type, new_key);
 
     // Update the display name
     // Don't set `bNeedsToSaveKeyBinds`, or change the actual dummy key we stored
     auto localize = hook.obj->get<UFunction, BoundFunction>(L"GetLocalizedKeyName"_fn);
 
-    selected_bind.get<UObjectProperty>(L"Object"_fn)
+    keybinds.get_at<UStructProperty>(selected_idx)
+        .get<UObjectProperty>(L"Object"_fn)
         ->get<UFunction, BoundFunction>(L"SetString"_fn)
         .call<void, UStrProperty, UStrProperty>(L"value", binds::get_bind_name(type, &localize));
     hook.obj->get<UObjectProperty>(L"ControllerMappingClip"_fn)

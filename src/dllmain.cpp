@@ -4,6 +4,7 @@
 #include <unrealsdk/logging.h>
 #include <unrealsdk/unrealsdk.h>
 
+#include "binds.h"
 #include "menu.h"
 
 namespace {
@@ -23,6 +24,7 @@ DWORD WINAPI startup_thread(LPVOID /*unused*/) {
         LOG(ERROR, "Exception occurred while initializing the sdk: {}", ex.what());
     }
 
+    scroll::binds::init();
     scroll::menu::init();
 
     return 1;
