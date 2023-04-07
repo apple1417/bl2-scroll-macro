@@ -6,6 +6,7 @@
 
 #include "binds.h"
 #include "config.h"
+#include "macro.h"
 #include "menu.h"
 
 namespace {
@@ -25,8 +26,18 @@ DWORD WINAPI startup_thread(LPVOID /*unused*/) {
         LOG(ERROR, "Exception occurred while initializing the sdk: {}", ex.what());
     }
 
-    scroll::binds::init();
-    scroll::menu::init();
+    try {
+        scroll::binds::init();
+        scroll::menu::init();
+    } catch (std::exception& ex) {
+        LOG(ERROR, "Exception occurred while initializing the maco: {}", ex.what());
+    }
+
+    try {
+        scroll::macro::run();
+    } catch (std::exception& ex) {
+        LOG(ERROR, "Exception occurred while running the macro, stopping: {}", ex.what());
+    }
 
     return 1;
 }

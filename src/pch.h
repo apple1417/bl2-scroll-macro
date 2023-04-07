@@ -3,6 +3,9 @@
 
 #include <unrealsdk/pch.h>
 
+#include <Mmsystem.h>
+#include <Psapi.h>
+
 #ifdef __cplusplus
 
 #include <fstream>

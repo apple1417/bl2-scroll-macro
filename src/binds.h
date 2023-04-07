@@ -37,6 +37,14 @@ std::wstring get_bind_name(ScrollType type, unrealsdk::unreal::BoundFunction* lo
  */
 void rebind(ScrollType type, const unrealsdk::unreal::FName& key);
 
+/**
+ * @brief Gets the key code for one of the current binds.
+ *
+ * @param type Which type of bind to get.
+ * @return The keycode.
+ */
+DWORD get_key_code(ScrollType type);
+
 }  // namespace scroll::binds
 
 #endif /* BINDS_H */

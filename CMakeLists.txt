@@ -27,7 +27,7 @@ file(GLOB_RECURSE sources CONFIGURE_DEPENDS "src/*.cpp" "src/*.h")
 target_sources(bl2-scroll-macro PRIVATE ${sources})
 
 target_include_directories(bl2-scroll-macro PUBLIC "src")
-target_link_libraries(bl2-scroll-macro PUBLIC unrealsdk)
+target_link_libraries(bl2-scroll-macro PUBLIC unrealsdk winmm.lib)
 
 target_precompile_headers(bl2-scroll-macro PUBLIC "src/pch.h")
 

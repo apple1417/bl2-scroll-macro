@@ -342,7 +342,7 @@ void init(void) {
 }
 
 std::wstring get_bind_name(ScrollType type, BoundFunction* localize) {
-    auto keycode = type == ScrollType::UP ? up_keycode : down_keycode;
+    auto keycode = get_key_code(type);
 
     // There are a few keys which display in dumb ways, override them
     switch (keycode) {
@@ -362,7 +362,7 @@ std::wstring get_bind_name(ScrollType type, BoundFunction* localize) {
 
         auto localized = localize->call<UStrProperty, UNameProperty>(FName(name));
         if (localized.starts_with(L"?INT?")) {
-            LOG(ERROR, L"Failed to localize key '{}' / VK 0x{:x}", name, keycode);
+            LOG(DEV_WARNING, L"Failed to localize key '{}' / VK 0x{:x}", name, keycode);
             return name;
         }
         return localized;
@@ -374,7 +374,7 @@ std::wstring get_bind_name(ScrollType type, BoundFunction* localize) {
 
 void rebind(ScrollType type, const unrealsdk::unreal::FName& key) {
     if (!fname_to_keycode.contains(key)) {
-        LOG(ERROR, "Encountered unknown key '{}', unable to bind to it!", key);
+        LOG(ERROR, "Could not bind to unknown key '{}'", key);
         return;
     }
 
@@ -385,6 +385,10 @@ void rebind(ScrollType type, const unrealsdk::unreal::FName& key) {
     *current_keycode = new_keycode == *current_keycode ? UNBOUND : new_keycode;
 
     save_config();
+}
+
+DWORD get_key_code(ScrollType type) {
+    return type == ScrollType::UP ? up_keycode : down_keycode;
 }
 
 }  // namespace scroll::binds

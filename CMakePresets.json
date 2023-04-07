@@ -79,6 +79,7 @@
       ]
     },
     {
+      "hidden": true,
       "name": "mingw-debug",
       "displayName": "Debug (MinGW)",
       "inherits": [
@@ -88,6 +89,7 @@
       ]
     },
     {
+      "hidden": true,
       "name": "mingw-release",
       "displayName": "Release (MinGW)",
       "inherits": [
