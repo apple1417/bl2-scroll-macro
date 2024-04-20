@@ -1,6 +1,10 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include <pch.h>
+
+namespace scroll::config {
+
 // NOLINTBEGIN(cppcoreguidelines-macro-usage)
 
 // This header is modified by cmake to insert the relevant strings
@@ -15,5 +19,21 @@ inline const constexpr auto LOG_FILE = "scroll-macro.log";
 inline const constexpr auto CONFIG_FILE = "scroll-macro.cfg";
 
 inline const constexpr auto SPAM_TIMER_MS = 3;
+
+extern DWORD up_keycode;
+extern DWORD down_keycode;
+extern bool suppress_achievements;
+
+/**
+ * @brief Saves the config to disk.
+ */
+void save(void);
+
+/**
+ * @brief Loads the config from disk.
+ */
+void load(void);
+
+}  // namespace scroll::config
 
 #endif /* CONFIG_H */

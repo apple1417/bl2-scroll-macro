@@ -121,7 +121,7 @@ bool on_bind_key(Details& hook) {
  */
 bool on_update_tooltips(Details& hook) {
     hook.obj->get<UFunction, BoundFunction>(L"SetVariableString"_fn)
-        .call<void, UStrProperty, UStrProperty>(TOOLTIP_PATH, USING_MACRO_TOOLTIP);
+        .call<void, UStrProperty, UStrProperty>(TOOLTIP_PATH, config::USING_MACRO_TOOLTIP);
 
     return true;
 }

@@ -14,6 +14,8 @@
 #include <unrealsdk/unreal/wrappers/wrapped_array.h>
 #include <unrealsdk/unreal/wrappers/wrapped_struct.h>
 
+#include "config.h"
+
 using namespace unrealsdk::hook_manager;
 using namespace unrealsdk::unreal;
 
@@ -32,8 +34,6 @@ const constexpr std::wstring_view HANDLE_SPINNER_CHANGE_FUNC =
 
 const constexpr auto ACHIEVEMENTS_EVENT_ID = 14171417;
 
-bool suppress_achievements = true;
-
 /**
  * @brief Hook called to try show achievements - we block it if needed.
  *
@@ -41,7 +41,7 @@ bool suppress_achievements = true;
  * @return True if to block execution.
  */
 bool show_achievements_hook(Details& /*hook*/) {
-    return suppress_achievements;
+    return config::suppress_achievements;
 }
 
 /**
@@ -58,7 +58,7 @@ bool populate_game_options_hook(Details& hook) {
     args.set<UIntProperty>(L"EventID"_fn, ACHIEVEMENTS_EVENT_ID);
     args.set<UStrProperty>(L"Caption"_fn, L"SUPRESS ACHIEVEMENTS");
     args.set<UBoolProperty>(L"bDisabled"_fn, false);
-    args.set<UIntProperty>(L"StartingChoiceIndex"_fn, suppress_achievements ? 1 : 0);
+    args.set<UIntProperty>(L"StartingChoiceIndex"_fn, config::suppress_achievements ? 1 : 0);
     auto choices = args.get<UArrayProperty>(L"Choices"_fn);
     choices.resize(2);
     choices.set_at<UStrProperty>(0, L"Off");
@@ -92,7 +92,8 @@ bool post_populate_game_options_hook(Details& hook) {
 bool handle_spinner_change_hook(Details& hook) {
     if (hook.args->get<UIntProperty>(L"EventID"_fn) == ACHIEVEMENTS_EVENT_ID) {
         auto new_idx = hook.args->get<UIntProperty>(L"NewChoiceIndex"_fn);
-        suppress_achievements = new_idx != 0;
+        config::suppress_achievements = new_idx != 0;
+        config::save();
         return true;
     }
 

@@ -310,32 +310,9 @@ const std::unordered_map<DWORD, const wchar_t*> KEYCODE_TO_UNREAL = {
 // The inverse of the above, calculated at runtime
 std::unordered_map<FName, DWORD> fname_to_keycode{};
 
-DWORD up_keycode = 0;
-DWORD down_keycode = 0;
-
-/**
- * @brief Loads the configured keys from the config file.
- */
-void load_config(void) {
-    // Don't need anything special, it's just two ints
-    std::ifstream stream(CONFIG_FILE);
-    stream >> up_keycode;
-    stream >> down_keycode;
-}
-
-/**
- * @brief Writes the configured keys to the config file.
- */
-void save_config(void) {
-    std::ofstream stream(CONFIG_FILE);
-    stream << up_keycode << " " << down_keycode;
-}
-
 }  // namespace
 
 void init(void) {
-    load_config();
-
     for (const auto& pair : KEYCODE_TO_UNREAL) {
         fname_to_keycode[FName(pair.second)] = pair.first;
     }
@@ -379,16 +356,16 @@ void rebind(ScrollType type, const unrealsdk::unreal::FName& key) {
     }
 
     auto new_keycode = fname_to_keycode[key];
-    auto current_keycode = (type == ScrollType::UP) ? &up_keycode : &down_keycode;
+    auto current_keycode = (type == ScrollType::UP) ? &config::up_keycode : &config::down_keycode;
 
     // If bound to the same thing, unbind
     *current_keycode = new_keycode == *current_keycode ? UNBOUND : new_keycode;
 
-    save_config();
+    config::save();
 }
 
 DWORD get_key_code(ScrollType type) {
-    return type == ScrollType::UP ? up_keycode : down_keycode;
+    return type == ScrollType::UP ? config::up_keycode : config::down_keycode;
 }
 
 }  // namespace scroll::binds

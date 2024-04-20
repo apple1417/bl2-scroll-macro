@@ -194,7 +194,7 @@ void run(void) {
             unrealsdk::fmt::format("Failed to start keyboard hook: {}", GetLastError()));
     }
 
-    timeSetEvent(SPAM_TIMER_MS, 0, timer_proc, 0, TIME_PERIODIC);
+    timeSetEvent(config::SPAM_TIMER_MS, 0, timer_proc, 0, TIME_PERIODIC);
     while (true) {
         MSG message;
         while (GetMessageW(&message, nullptr, 0, 0) != 0) {

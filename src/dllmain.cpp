@@ -19,7 +19,8 @@ namespace {
  * @return unused.
  */
 DWORD WINAPI startup_thread(LPVOID /*unused*/) {
-    unrealsdk::logging::init(LOG_FILE);
+    scroll::config::load();
+    unrealsdk::logging::init(scroll::config::LOG_FILE);
 
     try {
         unrealsdk::init(&unrealsdk::game::select_based_on_executable);
