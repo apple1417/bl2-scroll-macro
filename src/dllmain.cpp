@@ -4,6 +4,7 @@
 #include <unrealsdk/logging.h>
 #include <unrealsdk/unrealsdk.h>
 
+#include "achievements.h"
 #include "binds.h"
 #include "config.h"
 #include "macro.h"
@@ -29,6 +30,7 @@ DWORD WINAPI startup_thread(LPVOID /*unused*/) {
     try {
         scroll::binds::init();
         scroll::menu::init();
+        scroll::achievements::init();
     } catch (std::exception& ex) {
         LOG(ERROR, "Exception occurred while initializing the macro: {}", ex.what());
     }
