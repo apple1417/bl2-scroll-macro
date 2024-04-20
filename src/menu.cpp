@@ -44,7 +44,7 @@ const constexpr auto SCROLL_DOWN_CAPTION = L"Scroll Down Macro";
  * @param hook Hooked function details.
  * @return True if to block execution.
  */
-bool post_populate_keys(HookDetails& hook) {
+bool post_populate_keys(Details& hook) {
     auto add_keybind_entry = hook.obj->get<UFunction, BoundFunction>(L"AddKeyBindEntry"_fn);
     auto add_key_data = hook.obj->get<UObjectProperty>(L"ControllerMappingClip"_fn)
                             ->get<UFunction, BoundFunction>(L"AddKeyData"_fn);
@@ -52,8 +52,7 @@ bool post_populate_keys(HookDetails& hook) {
 
     auto keybind_list = hook.obj->get<UArrayProperty>(L"KeyBinds"_fn);
 
-    auto inject_key = [&](const std::wstring& tag, const std::wstring& caption,
-                          binds::ScrollType type) {
+    auto inject_key = [&](FName tag, const std::wstring& caption, binds::ScrollType type) {
         auto idx = add_keybind_entry.call<UIntProperty, UNameProperty, UNameProperty, UStrProperty>(
             tag, tag, caption);
 
@@ -67,8 +66,8 @@ bool post_populate_keys(HookDetails& hook) {
         bind.set<UObjectProperty>(L"Object"_fn, obj);
     };
 
-    inject_key(L"scroll.macro.up", SCROLL_UP_CAPTION, binds::ScrollType::UP);
-    inject_key(L"scroll.macro.down", SCROLL_DOWN_CAPTION, binds::ScrollType::DOWN);
+    inject_key(L"scroll.macro.up"_fn, SCROLL_UP_CAPTION, binds::ScrollType::UP);
+    inject_key(L"scroll.macro.down"_fn, SCROLL_DOWN_CAPTION, binds::ScrollType::DOWN);
 
     return false;
 }
@@ -79,7 +78,7 @@ bool post_populate_keys(HookDetails& hook) {
  * @param hook Hooked function details.
  * @return True if to block execution.
  */
-bool on_bind_key(HookDetails& hook) {
+bool on_bind_key(Details& hook) {
     const auto keybinds = hook.obj->get<UArrayProperty>(L"KeyBinds"_fn);
 
     const auto scroll_up_idx = keybinds.size() - 2;
@@ -120,7 +119,7 @@ bool on_bind_key(HookDetails& hook) {
  * @param hook Hooked function details.
  * @return True if to block execution.
  */
-bool on_update_tooltips(HookDetails& hook) {
+bool on_update_tooltips(Details& hook) {
     hook.obj->get<UFunction, BoundFunction>(L"SetVariableString"_fn)
         .call<void, UStrProperty, UStrProperty>(TOOLTIP_PATH, USING_MACRO_TOOLTIP);
 
@@ -130,9 +129,9 @@ bool on_update_tooltips(HookDetails& hook) {
 }  // namespace
 
 void init(void) {
-    hooks[POPULATE_KEYS_FUNC].post[HOOK_KEY] = post_populate_keys;
-    hooks[BIND_KEY_FUNC].pre[HOOK_KEY] = on_bind_key;
-    hooks[UPDATE_TOOLTIPS_FUNC].pre[HOOK_KEY] = on_update_tooltips;
+    add_hook(POPULATE_KEYS_FUNC, Type::POST, HOOK_KEY, post_populate_keys);
+    add_hook(BIND_KEY_FUNC, Type::PRE, HOOK_KEY, on_bind_key);
+    add_hook(UPDATE_TOOLTIPS_FUNC, Type::PRE, HOOK_KEY, on_update_tooltips);
 }
 
 }  // namespace scroll::menu
