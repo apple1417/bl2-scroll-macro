@@ -1,6 +1,6 @@
 ﻿cmake_minimum_required(VERSION 3.24)
 
-project(bl2-scroll-macro VERSION 1.0)
+project(bl2-scroll-macro VERSION 1.1)
 add_library(bl2-scroll-macro SHARED)
 
 target_compile_features(bl2-scroll-macro PUBLIC cxx_std_20)
